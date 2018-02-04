@@ -1,0 +1,99 @@
+/**
+ * Created by ANUPYA on 2018-02-02.
+ */
+
+import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import android.os.Bundle;
+import java.util.Observable;
+import java.util.Observer;
+
+public class Subject {
+
+    private List<Observer> observers = new ArrayList<Observer>();
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+        notifyObservers();
+    }
+
+    public void attach(Observer observer){
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+}
+
+public class User extends Observable {
+    private String fullName;
+    private int points;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_profile);
+
+        // add to com.example.ellehacks.Database
+
+        mLeaderboard = Leaderboard.getInstance();
+        mLeaderboard.registerObserver(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLeaderboard.removeObserver(this);
+    }
+
+    @Override
+    public void onUserDataChanged(String fullName, int minutesWatched) {
+        // change it in database
+    }
+}
+
+public class Video extends Observable {
+    private boolean vidLength;
+    private int viewCount = 0;
+    int searchFreq = 0;
+
+    public void watching() {
+        do {
+            view++;
+        } while (vidLength != true);
+
+    }
+
+    public boolean isVidLength(boolean vidLength) {
+        if (/*video is over, set vidlength to true*/){
+            vidLength = true;
+        } else {
+            vidLength = false;
+        }
+        return vidLength;
+
+    }
+
+    public int quiz() {
+
+        if (/*if vidLength == true, ask if quiz will be taken*/) {
+            System.out.println("Proceed to quiz?");
+            Scanner response = new Scanner(System.in);
+            if(response = "yes"){
+                /*show quiz*/
+            } else {
+                return 0;
+            }
+        }
+
+    }
+}
